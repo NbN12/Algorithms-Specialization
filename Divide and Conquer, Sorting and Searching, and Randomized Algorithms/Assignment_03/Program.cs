@@ -29,12 +29,18 @@ namespace Assignment_03
         static int PivotPartitionUsingMedianOfThreeElement(int[] arr, int left, int right)
         {
             var mid = (right + left) / 2;
-            var median = left;
+            var median = -1;
 
-            var k = new[] { (arr[left], left), (arr[mid], mid), (arr[right], right) };
-            k = k.OrderBy(v => v.Item1).ToArray();
+            // Reference link: https://stackoverflow.com/questions/1582356/fastest-way-of-finding-the-middle-value-of-a-triple/14676309#14676309 
 
-            Swap(ref arr[left], ref arr[k[1].Item2]);
+            if ((arr[left] - arr[mid]) * (arr[right] - arr[left]) >= 0)
+                median = left;
+            else if ((arr[mid] - arr[left]) * (arr[right] - arr[mid]) >= 0)
+                median = mid;
+            else
+                median = right;
+
+            Swap(ref arr[left], ref arr[median]);
             var p = arr[left];
             var i = left + 1;
             for (var j = left + 1; j <= right; j++)
